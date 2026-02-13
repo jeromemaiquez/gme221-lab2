@@ -46,3 +46,11 @@ This laboratory performs a parcel-landuse overlay analysis using Python (GeoPand
 5. Yes. Since the analysis focuses on areas of the parcels and landuse areas, any error in the geometries will result in errors in the area values provided. This may be more prominent in smaller parcels, where any minor error may result in a large error in the overlap percentage, thus leading to major changes in their classification.
 
 6. Changing the dominance threshold will either expand or shrink the spatial pattern, but not entirely change it. The most change may be observed in the edges of residential vs. non-residential parcels, or new hotspots may arise in otherwise non-residential dominated areas.
+
+## Reflection - Part F
+
+I chose the 2nd spatial question: _which parcels had no single landuse fragment exceeding 60%?_ I copied the default algorithmic steps to prepare the spatial data from `analysis.py`: CRS transformation, total area calculation, overlay, and overlap area calculation. 
+
+However, to answer the question, I first made use of the .dissolve() method, where I grouped the landuse fragments by parcel, each of which had a list of the landuse area percentages. I then performed thresholding for each of these percentage values per parcel. Using the Python all() function followed by the filtering syntax of pandas, I only retained those parcels where all percentages satisfied the <60% threshold. 
+
+Since the question was a little more complex than the first one (residential-dominant parcels), the algorithmic logic ended up being a little more complex as well. I decided to use lambda functions in the aggregation function for the `"percentage"` column, as well as in the per-element thresholding of the resulting lists of percentages. This is very likely only one of many possible algorithmic solutions to arrive at the same answer.
