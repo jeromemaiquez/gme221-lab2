@@ -46,4 +46,10 @@ parcels["total_area"] = parcels.geometry.area
 overlay = gpd.overlay(parcels, landuse, how="intersection")
 overlay["landuse_area"] = overlay.geometry.area
 
+# print(overlay.head())
+
+# Compute area % per landuse fragment in each parcel
+overlay["percentage"] = (overlay["landuse_area"] / overlay["total_area"]) * 100
+overlay["percentage"] = overlay["percentage"].round(2)
+
 print(overlay.head())
