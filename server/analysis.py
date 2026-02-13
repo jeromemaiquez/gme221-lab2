@@ -22,5 +22,10 @@ sql_landuse = "SELECT name, geom FROM public.landuse"
 parcels = gpd.read_postgis(sql_parcel, engine, geom_col="geom")
 landuse = gpd.read_postgis(sql_landuse, engine, geom_col="geom")
 
-print(parcels.head())
-print(landuse.head())
+# print(parcels.head())
+# print(landuse.head())
+
+print(parcels.crs)
+print(landuse.crs)
+print(parcels.geometry.type.unique())
+print(landuse.geometry.type.unique())
