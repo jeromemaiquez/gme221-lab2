@@ -34,4 +34,11 @@ landuse = gpd.read_postgis(sql_landuse, engine, geom_col="geom")
 parcels = parcels.to_crs(epsg=3395)
 landuse = landuse.to_crs(epsg=3395)
 
+# print(parcels.head())
+print(parcels.geometry)
+
+parcels["total_area"] = parcels.geometry.area
+
+print(parcels["total_area"])
+
 print(parcels.head())
