@@ -42,4 +42,16 @@ overlay["percentage"] = overlay["percentage"].round(2)
 # print(overlay.head())
 
 # Print all unique landuse types
-print(landuse["name"].unique())
+# print(landuse["name"].unique())
+
+# Get a list of landuse fragment percentages per parcel (for verification)
+mixed_use = overlay.groupby("parcel_pin").agg({
+    "percentage": lambda x: [pct for pct in x],
+    "total_area": "first"
+})
+
+# Apply classification: find all parcels where no landuse fragment exceeds 60%
+mixed_use["is_mixed_use"] = mixed_use["percentage"].apply(lambda x: all([pct < 60 for pct in x]))
+mixed_use = mixed_use[mixed_use["is_mixed_use"] == True].copy()
+
+print(mixed_use.head())
