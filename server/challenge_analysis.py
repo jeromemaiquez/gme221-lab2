@@ -44,17 +44,25 @@ overlay["percentage"] = overlay["percentage"].round(2)
 # Print all unique landuse types
 # print(landuse["name"].unique())
 
-# Get a list of landuse fragment percentages per parcel (for verification)
-mixed_use = overlay.dissolve(
-    by="parcel_pin",
-    aggfunc={
-    "percentage": lambda x: [pct for pct in x],
-    "total_area": "first"
-})
+# # Get a list of landuse fragment percentages per parcel (for verification)
+# mixed_use = overlay.dissolve(
+#     by="parcel_pin",
+#     aggfunc={
+#     "percentage": lambda x: [pct for pct in x],
+#     "total_area": "first"
+# })
 
-# Apply classification: find all parcels where no landuse fragment exceeds 60%
-mixed_use["is_mixed_use"] = mixed_use["percentage"].apply(lambda x: all([pct < 60 for pct in x]))
-mixed_use = mixed_use[mixed_use["is_mixed_use"] == True].copy()
+# # Apply classification: find all parcels where no landuse fragment exceeds 60%
+# mixed_use["is_mixed_use"] = mixed_use["percentage"].apply(lambda x: all([pct < 60 for pct in x]))
+# mixed_use = mixed_use[mixed_use["is_mixed_use"] == True].copy()
+
+# Simpler code for finding mixed-use parcels
+mixed_use = (overlay
+             .sort_values(by=["parcel_pin", "percentage"], ascending=[True, False])
+             .dissolve("parcel_pin", aggfunc="first")
+)
+
+mixed_use = mixed_use[mixed_use["percentage"] < 60].rename(columns={"percentage": "largest_pct"})
 
 # print(mixed_use.head())
 
