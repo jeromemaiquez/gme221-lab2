@@ -61,4 +61,13 @@ dominant_res = overlay[
     (overlay["percentage"] >= 60)
 ].copy()
 
-print(dominant_res.head())
+# print(dominant_res.head())
+
+dominant_res = dominant_res.to_crs(epsg=4326)
+
+dominant_res.to_file(
+    "output/dominant_residential.geojson",
+    driver="GeoJSON"
+)
+
+print("GeoJSON saved successfully.")
