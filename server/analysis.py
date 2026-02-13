@@ -52,4 +52,13 @@ overlay["landuse_area"] = overlay.geometry.area
 overlay["percentage"] = (overlay["landuse_area"] / overlay["total_area"]) * 100
 overlay["percentage"] = overlay["percentage"].round(2)
 
-print(overlay.head())
+# print(overlay.head())
+
+residential_landuse = ["Residential Zone - Low Density", "Residential Zone - Medium Density"]
+
+dominant_res = overlay[
+    (overlay["name"].isin(residential_landuse)) &
+    (overlay["percentage"] >= 60)
+].copy()
+
+print(dominant_res.head())
