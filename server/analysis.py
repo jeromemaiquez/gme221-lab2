@@ -35,10 +35,15 @@ parcels = parcels.to_crs(epsg=3395)
 landuse = landuse.to_crs(epsg=3395)
 
 # print(parcels.head())
-print(parcels.geometry)
+# print(parcels.geometry)
 
 parcels["total_area"] = parcels.geometry.area
 
-print(parcels["total_area"])
+# print(parcels["total_area"])
+# print(parcels.head())
 
-print(parcels.head())
+# Compute spatial intersection between parcel and landuse polygons
+overlay = gpd.overlay(parcels, landuse, how="intersection")
+overlay["landuse_area"] = overlay.geometry.area
+
+print(overlay.head())
