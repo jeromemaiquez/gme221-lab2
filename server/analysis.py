@@ -25,7 +25,13 @@ landuse = gpd.read_postgis(sql_landuse, engine, geom_col="geom")
 # print(parcels.head())
 # print(landuse.head())
 
-print(parcels.crs)
-print(landuse.crs)
-print(parcels.geometry.type.unique())
-print(landuse.geometry.type.unique())
+# print(parcels.crs)
+# print(landuse.crs)
+# print(parcels.geometry.type.unique())
+# print(landuse.geometry.type.unique())
+
+# Reproject to EPSG:3395 for area calculations
+parcels = parcels.to_crs(epsg=3395)
+landuse = landuse.to_crs(epsg=3395)
+
+print(parcels.head())
