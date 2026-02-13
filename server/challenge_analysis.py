@@ -39,4 +39,7 @@ overlay["landuse_area"] = overlay.geometry.area
 overlay["percentage"] = (overlay["landuse_area"] / overlay["total_area"]) * 100
 overlay["percentage"] = overlay["percentage"].round(2)
 
-print(overlay.head())
+# print(overlay.head())
+
+# Print all unique landuse types
+print(landuse["name"].unique())
